@@ -27,8 +27,8 @@ jobs:
        # Step 4: Build and push Docker image with OCI Label
       - name: Build and push Docker image with OCI label
         run: |
-          docker build -t ${{ secrets.ARTIFACTORY_URL }}/ui/packages/docker:%2F%2Fimage1/latest --label org.opencontainers.image.source="https://github.com/${{ github.repository }}" .
-          docker push ${{ secrets.ARTIFACTORY_URL }}/ui/packages/docker:%2F%2Fimage1/latest
+          docker build -t ${{ secrets.ARTIFACTORY_URL }}/artifactory/docker/image1:latest --label org.opencontainers.image.source="https://github.com/${{ github.repository }}" .
+          docker push ${{ secrets.ARTIFACTORY_URL }}/artifactory/docker/image1:latest
 
 
       # Step 5: Build and push Docker image with provenance
