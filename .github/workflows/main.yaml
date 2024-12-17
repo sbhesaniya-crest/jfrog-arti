@@ -1,0 +1,36 @@
+name: Build and Push Docker Images to JFrog Artifactory
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Log in to JFrog Artifactory
+      - name: Log in to JFrog Artifactory
+        run: |
+          echo ${{ secrets.ARTIFACTORY_PASSWORD }} | docker login ${{ secrets.ARTIFACTORY_URL }} -u ${{ secrets.ARTIFACTORY_USERNAME }} --password-stdin
+
+      # Step 3: Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Step 4: Build and push Docker image with OCI Label
+      - name: Build and push Docker image with OCI label
+        run: |
+          docker build -t ${{ secrets.ARTIFACTORY_URL }}/image1:latest --label org.opencontainers.image.source="https://github.com/${{ github.repository }}" .
+          docker push ${{ secrets.ARTIFACTORY_URL }}/image1:latest
+
+      # Step 5: Build and push Docker image with provenance
+      - name: Build and push Image 2 with Provenance
+        run: |
+          docker buildx build --provenance=true -t ${{ secrets.ARTIFACTORY_URL }}/image2:latest --push .
