@@ -29,7 +29,7 @@ jobs:
         env:
           IMAGE_NAME1: trialf4cn04.jfrog.io/docker-test-docker/image2:${{ github.run_number }}
         run: |
-          jf docker buildx build --provenance=true --tag .
+          jf docker buildx build --provenance=true .
           jf docker push $IMAGE_NAME1
           
       - name: Publish Build info With JFrog CLI
