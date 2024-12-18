@@ -34,5 +34,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.ARTIFACTORY_URL }}/image1:latest
+          tags: url/image1:latest
           labels: org.opencontainers.image.source="https://github.com/${{ github.repository }}"
