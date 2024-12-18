@@ -34,7 +34,7 @@ jobs:
         env:
           IMAGE_NAME2: trialf4cn04.jfrog.io/docker-test-docker/image2:${{ github.run_number }}
         run: |
-          jf docker buildx build --push --attest type=provenance,mode=[min,max] -t $IMAGE_NAME2 .
+          jf docker buildx build -t $IMAGE_NAME2 --push --attest type=provenance,mode=[min,max] .
           docker images
           
       - name: Publish Build info With JFrog CLI
