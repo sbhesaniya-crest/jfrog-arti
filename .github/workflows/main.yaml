@@ -22,15 +22,14 @@ jobs:
         run: |
           docker buildx create --use --name mybuilder
           docker buildx inspect --bootstrap
-          
-      
 
       - name: Build and push Docker Image 2 (with Attestation)
         env:
           IMAGE_NAME2: trialf4cn04.jfrog.io/docker-test-docker/image2:${{ github.run_number }}
         run: |
-          jf docker buildx build -t $IMAGE_NAME2 --push --attest type=provenance,mode=max .
+          jf docker buildx build -t $IMAGE_NAME2 --attest type=provenance,mode=max .
           docker images
+          jf docker push $IMAGE_NAME2
           
       - name: Publish Build info With JFrog CLI
         env:
