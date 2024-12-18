@@ -26,8 +26,10 @@ jobs:
       - name: Build and push Docker Image 2 (with Attestation)
         env:
           IMAGE_NAME2: trialf4cn04.jfrog.io/docker-test-docker/image2:${{ github.run_number }}
+          JF_URL: ${{ secrets.ARTIFACTORY_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
         run: |
-          jf docker buildx build -t $IMAGE_NAME2 --attest type=provenance,mode=max --push .
+          jf docker buildx build -t $IMAGE_NAME2 --attest type=provenance,mode=min --push .
           
       - name: Publish Build info With JFrog CLI
         env:
