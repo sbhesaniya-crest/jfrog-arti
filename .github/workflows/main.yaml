@@ -23,18 +23,13 @@ jobs:
           docker buildx create --use --name mybuilder
           docker buildx inspect --bootstrap
           
-      - name: Build and push Docker Image 1 (with OCI Label)
-        env:
-          IMAGE_NAME: trialf4cn04.jfrog.io/docker-test-docker/image1:${{ github.run_number }}
-        run: |
-          jf docker build -t $IMAGE_NAME --label 'org.opencontainers.image.source="https://github.com/${{ github.repository }}"' .
-          jf docker push $IMAGE_NAME
+      
 
       - name: Build and push Docker Image 2 (with Attestation)
         env:
           IMAGE_NAME2: trialf4cn04.jfrog.io/docker-test-docker/image2:${{ github.run_number }}
         run: |
-          docker buildx build -t $IMAGE_NAME2 --push --attest type=provenance,mode=[min,max] .
+          jf docker buildx build -t $IMAGE_NAME2 --push --attest type=provenance,mode=max .
           docker images
           
       - name: Publish Build info With JFrog CLI
