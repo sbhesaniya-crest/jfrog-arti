@@ -34,7 +34,7 @@ jobs:
         env:
           IMAGE_NAME2: trialf4cn04.jfrog.io/docker-test-docker/image2:${{ github.run_number }}
         run: |
-          jf docker buildx build --push --provenance=true -t $IMAGE_NAME2 --label 'org.opencontainers.image.source="https://github.com/${{ github.repository }}"' .
+          jf docker buildx build --push --attest type=provenance,mode=[min,max] -t $IMAGE_NAME2 .
           docker images
           
       - name: Publish Build info With JFrog CLI
