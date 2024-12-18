@@ -20,9 +20,9 @@ jobs:
 
       - name: Create Buildx Builder
         run: |
-          docker buildx create --use --name mybuilder --driver containerd
+          docker buildx create --use --name mybuilder
           docker buildx inspect --bootstrap
-
+          
       - name: Build and push Docker Image 1 (with OCI Label)
         env:
           IMAGE_NAME: trialf4cn04.jfrog.io/docker-test-docker/image1:${{ github.run_number }}
