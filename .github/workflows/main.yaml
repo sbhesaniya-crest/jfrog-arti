@@ -18,12 +18,19 @@ jobs:
           JF_URL: ${{ secrets.ARTIFACTORY_URL }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
 
-      - name: Build Tag and push Docker Image
+      - name: Build and push Docker Image 1 (with OCI Label)
         env:
-          IMAGE_NAME: trialf4cn04.jfrog.io/docker-test-docker/jfrog-docker-example-image:${{ github.run_number }}
+          IMAGE_NAME: trialf4cn04.jfrog.io/docker-test-docker/image1:${{ github.run_number }}
         run: |
           jf docker build -t $IMAGE_NAME --label 'org.opencontainers.image.source="https://github.com/${{ github.repository }}"' .
           jf docker push $IMAGE_NAME
+
+      - name: Build and push Docker Image 2 (with Attestation)
+        env:
+          IMAGE_NAME1: trialf4cn04.jfrog.io/docker-test-docker/image2:${{ github.run_number }}
+        run: |
+          jf docker buildx build --provenance=true --tag .
+          jf docker push $IMAGE_NAME1
           
       - name: Publish Build info With JFrog CLI
         env:
